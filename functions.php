@@ -1,24 +1,59 @@
-<?php 
-function wp_adv_theme_support()
-{
-    add_theme_suport('tit;e-tag');
-    add_theme_support('coustum-logo')
+<?php
+    function wp_adv_theme_support()
+    {
+        add_theme_support('title-tag');
+        add_theme_support('custom-logo');
+    }
+
+    add_action('after_setup_theme', 'wp_adv_theme_support');
+
+    function wp_adv_menus(){
+        $locations = [
+            'primary' => 'Desktop Primary Left Sidebar',
+            'footer' => 'Footer Menu Items',
+        ];
+        register_nav_menus($locations);
+    }
+
+    add_action('init', 'wp_adv_menus');
+
+    function wp_adv_register_styles(){
+        wp_enqueue_style('wp-adv-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css', [], '5.0.2', 'all');
+         wp_enqueue_style('wp-adv-style', get_stylesheet_uri(), ['wp-adv-bootstrap'], '1.0', 'all');
+          wp_enqueue_style('wp-adv-fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css', [], '7.0.1', 'all');
+    }
+    add_action('wp_enqueue_scripts', 'wp_adv_register_styles');
+
+function wp_adv_register_scripts(){
+    wp_enqueue_script('wp-adv-bootstpa-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js', ['jquery'], '5.0.2', true);
+    wp_enqueue_script('wp-adv-js', get_template_directory_uri() . '/assets/js/main.js',[], '1.0', true);
+   
+}
+add_action('wp_enqueue_scripts', 'wp_adv_register_scripts');
+
+function wp_adv_menu_li_class($classes, $item, $args,$depth){
+if(isset($args->menu_class ) && strops($args->menu_class, 'navbar-nav') !!== false){
+    $classes[] = 'nav-item text-decoration-none';
+
+    if(in_array('current-menu-item', $classes)|| in_array('current_page_item', $classes)){
+        $classes[] = 'active';
+    }
+
+}
+return $classes;
 }
 
-add_action('after_setup_theme','wp_adv_theme_suport');
+add_filter('nav_menu_css_class', 'wp_adv_menu_li_class', 10, 4);
 
-function wp_adv_menus(){
-    $locations = [
-        'primary'=>'Destkopt Primary Left Sidebar',
-        'footer'=> 'Footer Menu Items',
-    
-    ];
-    register_nav_menus($locations);
-
+function wp_adv_menu_a_class($atts, $item, $args, $depth){
+    if(isset($args->menu_class ) && strops($args->menu_class, 'navbar-nav') !!== false){
+       $existing = isset($atts['class']) ? $atts['class'] . ' ' : '';
+        $atts['class'] = trim($existing . 'nav-link ');
+$title = strtolower(trim($item->title));
+if(strops($title, 'contact') !== false || in_array('contact', $item->classes)){
+ $atts['class'] .= 'btn btn-primary';}
+    }
+    return $atts;
 }
-add_actions('int','wp_adv_menus')
 
-functipn wp_adv_rwgister_syles(){
-    wp_enquene_style('wp-adv-bootstrap', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css',[], '5.0.2,''all');
-wp_enquene_style('wp-adv
-}
+add_filter('nav_menu_link_attributes', 'wp_adv_menu_a_class', 10, 4);

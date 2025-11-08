@@ -1,13 +1,15 @@
 <?php
-get_header();
+    get_header();
 ?>
-<article class="content pc-3 p-5 py-5 -md-5">
+<article class="content px-3 py-5 p-md-5">
     <?php
-    if (have_posts()) :
-        while (have_posts()) : the_post();
-        the_post();
-            get_template_part('template-parts/content', 'single');
-    
-    ?>
-    </article>
-    <?php get_footer(); ?> 
+        if(have_posts()) {
+            while(have_posts()){
+                the_post();
+                get_template_part('template-part/content', 'article');
+            }
+        }
+        ?>
+</article>
+
+<?php get_footer(); ?>

@@ -19,12 +19,14 @@
             ?>
     </span>
     <span class="comment"><a href="#comments"><i class="fa fa-comment"></i> <?php comments_number('0', '1', '%'); ?></a></span>
-    </div>
+        </div>
     </header>
-    <?php the_content(); ?>
-    <?php 
-    comments_template();
-    ?>
+
+        <?php the_content(); ?>
+
+            <?php
+            comments_template();
+            ?>
 </div>
 
           

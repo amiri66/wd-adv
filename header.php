@@ -33,7 +33,9 @@
                     }
                 ?>
                 <img class="mb-3 mx-auto logo" src="<?php echo  $logo[0] ?>" alt="logo">
-
+<div class="header-seacrh w-100 mb-3 px-2" >
+                    <?php get_search_form(); ?>
+                </div>
                 <?php
                     wp_nav_menu(
                         [
@@ -42,6 +44,7 @@
                             'theme_location' => 'primary',
                             'menu_class' => 'navbar-nav flex-column text-sm-center text-md-left',
                             'items_wrap' => '<ul id="%1$s" class="%2$s"></ul>',
+                            'fallback_cb' => 'wp_adv_fallback_menu',
                         ]
                         );
                     ?>
@@ -53,6 +56,9 @@
                         <li class="list-inline-item"><a href="#"><i class="fab fa-stack-overflow fa-fw"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="fab fa-codepen fa-fw"></i></a></li>
                     </ul>
+                    <?php
+                    dynamic_sidebar('sidebar-1');
+                    ?>
                     </div>
                     </nav>
                     </header>
